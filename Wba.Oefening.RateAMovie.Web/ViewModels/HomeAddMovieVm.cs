@@ -14,6 +14,7 @@ namespace Wba.Oefening.RateAMovie.Web.ViewModels
         public string Title { get; set; }
         [Required(ErrorMessage = "Releasedatum verplicht!")]
         [Display(Name = "Releasedatum")]
+        [DataType(DataType.Date)]
         public DateTime ReleaseDate{ get; set; }
         [Display(Name ="Company")]
         public int CompanyId { get; set; }
