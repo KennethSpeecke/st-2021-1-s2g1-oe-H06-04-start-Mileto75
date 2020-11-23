@@ -21,6 +21,7 @@ namespace Wba.Oefening.RateAMovie.Web.Data
         public DbSet<Company> Companies { get; set; }
 
         public DbSet<Rating> Ratings { get; set; }
+        public DbSet<MovieDirector> MovieDirectors { get; set; }
 
         public MovieContext(DbContextOptions<MovieContext> options) : base(options)
         {
