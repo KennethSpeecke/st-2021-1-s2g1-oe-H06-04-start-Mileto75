@@ -19,27 +19,7 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
             return View();
         }
 
-        [Route("movie/add")]
-        [HttpGet]
-        public IActionResult AddMovie()
-        {
-            //toont een lijst van movies
-
-            return View();
-        }
-
-        [Route("movie/add")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddMovie(HomeAddMovieVm homeAddMovieVm)
-        {
-            if(ModelState.IsValid)
-            {
-                //check als movie bestaat(fout aan model toevoegen)
-                //indien niet => voeg hem toe
-            }
-            return View(homeAddMovieVm);
-        }
+        
 
         public IActionResult About()
         {

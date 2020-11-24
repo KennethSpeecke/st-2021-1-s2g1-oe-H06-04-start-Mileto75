@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Wba.Oefening.RateAMovie.Web.ViewModels
 {
-    public class HomeAddMovieVm
+    public class MovieAddMovieVm
     {
         [Required(ErrorMessage ="Titel verplicht!")]
         [Display(Name ="Titel")]
