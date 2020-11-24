@@ -1,7 +1,7 @@
 ﻿@model MovieAddMovieVm
 
 <h2>New movie</h2>
-<form asp-controller="Home" asp-action="AddMovie" method="post">
+<form asp-controller="Movie" asp-action="AddMovie" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="Title"></label>
@@ -15,12 +15,13 @@
     </div>
     <div class="form-group">
         <label asp-for="CompanyId"></label>
-        <select asp-for="CompanyId" asp-items="@Model.Companies"></select>
+        <select asp-for="CompanyId" class="form-control"asp-items="@Model.Companies"></select>
     </div>
     <div class="form-group">
         <label asp-for="DirectorId"></label>
-        <select asp-for="DirectorId" asp-items="@Model.Directors"></select>
+        <select asp-for="DirectorId" class="form-control" asp-items="@Model.Directors"></select>
     </div>
+    <button class="btn btn-default" type="submit">Save</button>
 </form>
 
 

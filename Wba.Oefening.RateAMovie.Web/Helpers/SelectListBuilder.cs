@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Wba.Oefening.RateAMovie.Domain.Entities;
 using Wba.Oefening.RateAMovie.Domains.Entities;
 
-namespace Wba.Oefening.RateAMovie.Web.Services
+namespace Wba.Oefening.RateAMovie.Web.Helpers
+
 {
     public class SelectListBuilder
     {
