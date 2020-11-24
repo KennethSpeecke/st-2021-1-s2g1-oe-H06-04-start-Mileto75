@@ -27,6 +27,9 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
         public IActionResult Index()
         {
             //toont een lijst van directors
+            //zorgen we dat elke director  een link heeft
+            //naar edit en naar delete
+            //link wordt opgebouwd dmv Id => Director/Edit/1
             return View();
         }
 
@@ -92,6 +95,10 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
         }
 
         //edit director
+        //maak de methodes
+        //viewmodel => met hiiden input Id
+        //view
+        //modelstate checken en opslaan
         [HttpGet]
         [Route("/Director/Edit/{Id}")]
         public async Task<IActionResult> EditDirector(long Id)
@@ -118,6 +125,9 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
             //check Modelstate
             if(!ModelState.IsValid)
             {
+                //voor de return
+                //kunnen we eigenlijk weer de data gaan opvragen
+                //uit de database voor de gebruikerservaring
                 return View(directorEditDirectorVm);
             }
             //bewaar edits
