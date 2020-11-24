@@ -24,13 +24,30 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
         //controleer modelstate
         //controleer of director reeds bestaat
         //sla op in database
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //toont een lijst van directors
             //zorgen we dat elke director  een link heeft
             //naar edit en naar delete
             //link wordt opgebouwd dmv Id => Director/Edit/1
-            return View();
+            
+            //maak een lijst van directorIndexVm
+            List<DirectorIndexVm> directorIndexVms = new List<DirectorIndexVm>();
+            //haal de directors op uit db
+            var directors = await _movieContext.Directors.ToListAsync();
+            //foreach om viewmodel te vullen
+            foreach(var director in directors)
+            {
+                directorIndexVms.Add
+                    (
+                    new DirectorIndexVm
+                    {
+                        FullName = $"{director.FirstName} {director.LastName}",
+                        Id = director.Id
+                    }
+                    );
+            }
+            return View(directorIndexVms);
         }
 
         [HttpGet]

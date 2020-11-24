@@ -1,0 +1,24 @@
+﻿@model List<DirectorIndexVm>
+
+<h2>Directors</h2>
+<table class="table table-hover">
+    <tr>
+        <th>Director</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var directorndexVm in @Model)
+    {
+        <tr>
+            <td>@directorndexVm.FullName</td>
+            <td><a asp-controller="Director" 
+                   asp-action="Edit"
+                   asp-route-Id="@directorndexVm.Id">edit</a>
+             || <a asp-controller="Director"
+                   asp-action="Delete"
+                   asp-route-Id="@directorndexVm.Id">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
