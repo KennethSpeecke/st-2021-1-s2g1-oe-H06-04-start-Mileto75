@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Wba.Oefening.RateAMovie.Web.Data;
 using Wba.Oefening.RateAMovie.Web.Helpers;
 using Wba.Oefening.RateAMovie.Web.ViewModels;
@@ -21,7 +22,7 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
         }
         [Route("movie/add")]
         [HttpGet]
-        public IActionResult AddMovie()
+        public async Task<IActionResult> AddMovie()
         {
             //viewmodel
             MovieAddMovieVm movieAddMovieVm = new MovieAddMovieVm();
@@ -29,9 +30,9 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
             movieAddMovieVm.ReleaseDate = DateTime.Now;
             //vul lijsten
             movieAddMovieVm.Companies = _selectListBuilder.BuildCompaniesList
-                (_movieContext.Companies.ToList());
+                (await _movieContext.Companies.ToListAsync());
             movieAddMovieVm.Directors = _selectListBuilder.BuildDirectorList
-                (_movieContext.Directors.ToList());
+                (await _movieContext.Directors.ToListAsync());
             return View(movieAddMovieVm);
         }
 
