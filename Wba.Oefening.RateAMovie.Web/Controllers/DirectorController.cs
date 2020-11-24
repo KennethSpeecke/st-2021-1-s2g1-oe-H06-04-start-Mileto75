@@ -92,6 +92,57 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
         }
 
         //edit director
+        [HttpGet]
+        [Route("/Director/Edit/{Id}")]
+        public async Task<IActionResult> EditDirector(long Id)
+        {
+            //maak view model
+            DirectorEditDirectorVm directorEditDirectorVm = new DirectorEditDirectorVm();
+            //haal de director info op uit Db
+            var directorToEdit = await _movieContext
+                .Directors
+                .FirstOrDefaultAsync(d => d.Id == Id);
+            //fill the model
+            directorEditDirectorVm.FirstName = directorToEdit.FirstName;
+            directorEditDirectorVm.LastName = directorToEdit.LastName;
+            directorEditDirectorVm.Id = directorToEdit.Id;
+            return View(directorEditDirectorVm);
+        }
+
+        //edit director
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("/Director/Edit/{Id}")]
+        public async Task<IActionResult> EditDirector(DirectorEditDirectorVm directorEditDirectorVm)
+        {
+            //check Modelstate
+            if(!ModelState.IsValid)
+            {
+                return View(directorEditDirectorVm);
+            }
+            //bewaar edits
+            //haal director op
+            var directorToEdit = await _movieContext
+                .Directors
+                .FindAsync(directorEditDirectorVm.Id);
+            //pas aan
+            directorToEdit.FirstName = directorEditDirectorVm?.FirstName;
+            directorToEdit.LastName = directorEditDirectorVm?.LastName;
+            //bewaar
+            try
+            {
+                await _movieContext.SaveChangesAsync();
+            }
+            catch(DbUpdateException e)
+            {
+                Console.WriteLine(e.InnerException.Message);
+                ModelState
+                    .AddModelError("",
+                    "Er heeft zich een onbekende fout voorgedaan!");
+                return View(directorEditDirectorVm);
+            }
+            return View();
+        }
 
     }
 }
