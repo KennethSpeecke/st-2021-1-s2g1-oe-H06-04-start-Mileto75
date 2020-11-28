@@ -1,0 +1,33 @@
+﻿@model MovieIndexVm
+
+
+<h2>Our Movies</h2>
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>Movie</th>
+        <th>Action</th>
+    </tr>
+    @foreach(var movie in @Model.Movies)
+    {
+        <tr>
+            <td>@movie.Title</td>
+            <td>
+                <a class="btn-link"
+                   asp-controller="Movie"
+                   asp-action="AddDirectorsToMovie"
+                   asp-route-Id="@movie.Id">Edit directors</a>
+                ||
+                <a class="btn-link"
+                   asp-controller="Movie"
+                   asp-action="EditMovie"
+                   asp-route-Id="@movie.Id">Edit Movie</a>
+                ||
+                <a class="btn-link"
+                   asp-controller="Movie"
+                   asp-action="DeleteMovieConfirm"
+                   asp-route-Id="@movie.Id">Delete Movie</a>
+            </td>
+        </tr>
+    }
+</table>

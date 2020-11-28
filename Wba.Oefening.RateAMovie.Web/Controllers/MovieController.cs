@@ -21,7 +21,21 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
             _movieContext = movieContext;
             _selectListBuilder = new SelectListBuilder();
         }
-        [Route("movie/add")]
+        [HttpGet]
+        [Route("/Movie/Index")]
+        [Route("/Movie/")]
+        
+        public async Task<IActionResult> Index()
+        {
+            //viewModel
+            MovieIndexVm movieIndexVm = new MovieIndexVm();
+            //get the movies
+            movieIndexVm.Movies = await _movieContext.Movies.ToListAsync();
+            //pass to model
+            return View(movieIndexVm);
+        }
+        
+        [Route("/Movie/Add")]
         [HttpGet]
         public async Task<IActionResult> AddMovie()
         {
@@ -37,7 +51,7 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
             return View(movieAddMovieVm);
         }
 
-        [Route("movie/add")]
+        [Route("Movie/Add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddMovie(MovieAddMovieVm movieAddMovieVm)
@@ -136,6 +150,39 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
                 }
             }
             return View(movieAddDirectorsVm);
+        }
+
+
+        [HttpGet]
+        [Route("/Movie/ConfirmDelete/{Id}")]
+        public IActionResult DeleteMovieConfirm(long Id)
+        {
+            ViewBag.Id = Id;
+            return View();
+        }
+
+
+
+
+        [HttpGet]
+        [Route("/Movie/Delete/{Id}")]
+        public async Task<IActionResult> DeleteMovie(long Id)
+        {
+            //get the movie 
+            var movieToDelete = await _movieContext
+                .Movies
+                .FirstOrDefaultAsync(m => m.Id == Id);
+            _movieContext.Movies.Remove(movieToDelete);
+            try
+            {
+                await _movieContext.SaveChangesAsync();
+            }
+            catch(DbUpdateException e)
+            {
+                //handle error messages to user using tempdata
+                
+            }
+            return RedirectToAction("Index");
         }
     }
 }

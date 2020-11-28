@@ -1,0 +1,10 @@
+﻿
+<div class="alert alert-danger" role="alert">
+    are you sure?
+</div>
+<a asp-controller="Movie" asp-action="DeleteMovie"
+   asp-route-Id="@ViewBag.Id"
+   class="btn btn-danger">Yes</a>
+<a asp-controller="Movie" asp-action="Index"
+   class="btn btn-info">Cancel</a>
+
