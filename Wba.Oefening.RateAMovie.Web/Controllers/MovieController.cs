@@ -54,18 +54,51 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
         [Route("Movie/Add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddMovie(MovieAddMovieVm movieAddMovieVm)
+        public async Task<IActionResult> AddMovie(MovieAddMovieVm movieAddMovieVm)
         {
-            if (ModelState.IsValid)
-            {
-                //check als movie bestaat(fout aan model toevoegen)
-                //indien niet => voeg hem toe
-            }
             //vul de selectlijsten opnieuw
             movieAddMovieVm.Companies = _selectListBuilder.BuildCompaniesList
                 (_movieContext.Companies.ToList());
             movieAddMovieVm.Directors = _selectListBuilder.BuildDirectorList
                 (_movieContext.Directors.ToList());
+            if (ModelState.IsValid)
+            {
+                //check als movie bestaat(fout aan model toevoegen)
+                //indien niet => voeg hem toe
+                if(await _movieContext
+                    .Movies
+                    .AnyAsync(m => m.Title.Equals(movieAddMovieVm.Title)))
+                {
+                    ModelState.AddModelError("","Movie bestaat reeds!");
+                    return View(movieAddMovieVm);
+                }
+                //store movie
+                var movie = new Movie();
+
+
+                movie.Title = movieAddMovieVm?.Title;
+                movie.ReleaseDate = movieAddMovieVm?.ReleaseDate;
+                movie.CompanyId = movieAddMovieVm.CompanyId;
+                movie.Directors = new List<MovieDirector>
+                {
+                    new MovieDirector{Movie = movie,DirectorId=movieAddMovieVm.DirectorId}
+                };
+                //add to dbcontext
+                _movieContext.Movies.Add(movie);
+                //save to db
+                try
+                {
+                    await _movieContext.SaveChangesAsync();
+                    //use tempdata later on
+                    return RedirectToAction("AddMovie");
+                }
+                catch(DbUpdateException e)
+                {
+                    Console.WriteLine(e.InnerException.Message);
+                    //use tempdata later on
+                    return View(movieAddMovieVm);
+                }
+            }
             return View(movieAddMovieVm);
         }
         
@@ -160,9 +193,6 @@ namespace Wba.Oefening.RateAMovie.Web.Controllers
             ViewBag.Id = Id;
             return View();
         }
-
-
-
 
         [HttpGet]
         [Route("/Movie/Delete/{Id}")]
